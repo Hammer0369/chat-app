@@ -16,6 +16,19 @@
         <label class='chat-room-form__label' for='chat_room_チャットメンバー'>チャットメンバー</label>
       </div>
       <div class='chat-room-form__field--right'>
+        <!--ユーザー名一覧をプルダウン表示させる-->
+        <select name="room[user_ids][]">
+          <option value="">チャットするユーザーを選択してください</option>
+          <!--ログインユーザーはプルダウンに表示させない-->
+          <% User.where.not(id: current_user.id).each do |user| %>
+            <!--選択したユーザーの情報をparamsで扱えるようにパラメーターを送る-->
+            <!--paramsの中身 {"room" => {"user_ids" => ["選択したユーザーのid"]}}-->
+            <option value=<%= user.id %>><%= user.name %></option>
+          <% end %>
+        </select>
+        <!--パラメーターにログイン中ユーザーのidを含める-->
+        <!--paramsの中身 {"room" => {"user_ids" => ["選択したユーザーのid", "現在ログインしているユーザーのid"]}}-->
+        <input name="room[user_ids][]" type="hidden" value=<%= current_user.id %>>
       </div>
     </div>
     <div class='chat-room-form__field'>
