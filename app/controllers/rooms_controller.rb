@@ -20,6 +20,12 @@ class RoomsController < ApplicationController
     end
   end
 
+  def destroy
+    room = Room.find(params[:id]) # チャットルームの情報を取得している
+    room.destroy # destroyアクションは、削除するだけなのでビューの表示は不要→roomはインスタンス変数にする必要なし
+    redirect_to root_path
+  end
+
   private
   # 配列として受け取ったデータを含むストロングパラメーターの定義
   def room_params
