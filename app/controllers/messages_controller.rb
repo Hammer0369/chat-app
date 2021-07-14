@@ -4,6 +4,8 @@ class MessagesController < ApplicationController
     # @roomには、paramsに含まれているroom_idを代入
     @message = Message.new
     @room = Room.find(params[:room_id])
+    # チャットルームに紐付いている全てのメッセージ（@room.messages）
+    @messages = @room.messages.includes(:user) # N+1問題をincludesメソッドで解消→ユーザー情報を1度のアクセスでまとめて取得
   end
 
   def create
@@ -14,6 +16,7 @@ class MessagesController < ApplicationController
     if @message.save
       redirect_to room_messages_path(@room)
     else
+      @messages = @room.messages.includes(:user)
       render :index
     end
   end
