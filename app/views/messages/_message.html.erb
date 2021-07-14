@@ -17,5 +17,8 @@
       <!--messagesテーブルのcontentカラムから、メッセージの内容を取得-->
       <%= message.content %>
     </div>
+    <!--画像が添付されている場合、モデルから画像ファイルを呼び出して引数に記述し、画像を表示するimg要素を生成している-->
+    <!--.variant(resize: '500x500')で画像ファイルの表示サイズを指定している-->
+    <%= image_tag message.image.variant(resize: '500x500'), class: 'message-image' if message.image.attached? %>
   </div>
 </div>
